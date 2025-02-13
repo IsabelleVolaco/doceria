@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'agendamento.dart';
 import 'doces.dart';
+import 'contato.dart';
 
 void main() {
   runApp(const MainApp());
@@ -24,7 +26,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFE2EE), // Fundo rosa claro
-      appBar: AppBar( // APPBAR
+      appBar: AppBar( // APPBAR --------------------------------------------------------------------
         title: const Padding(
           padding: EdgeInsets.all(5.0),
           child: Text(
@@ -37,7 +39,7 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 80.0, 
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50.0),
-          child: Container( // NAVBAR
+          child: Container( // NAVBAR & BOTÕES --------------------------------------------------------------------
             color: const Color(0xFF73CEB4), 
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -45,43 +47,19 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
 
-                  TextButton(
-                    onPressed: () {
-                      // Navegar para a tela de Agendamento
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Agendamento()),
-                      );
-                    },
-                    child: const Text(
-                      'Agendamento',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  TextButton( // Navegar para a tela de Agendamento
+                    onPressed: () {  Navigator.push( context, MaterialPageRoute(builder: (context) => const Agendamento()), ); },
+                    child: const Text( 'Agendamento', style: TextStyle(color: Colors.white),),
                   ),
 
-                  TextButton(
-                    onPressed: () {
-                      // Navegar para a tela de Doces
-                      Navigator.push( context, MaterialPageRoute(builder: (context) => const Doces()), );
-                    },
-                    child: const Text(
-                      'Doces',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  TextButton( // Navegar para a tela de Doces
+                    onPressed: () {  Navigator.push( context, MaterialPageRoute(builder: (context) => const Doces()), ); },
+                    child: const Text( 'Doces', style: TextStyle(color: Colors.white),),
                   ),
 
-                  TextButton(
-                    onPressed: () {
-                      // Navegar para a tela de Contato
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Contato()),
-                      );
-                    },
-                    child: const Text(
-                      'Contato',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  TextButton( // Navegar para a tela de Contato
+                    onPressed: () {  Navigator.push( context, MaterialPageRoute(builder: (context) => const Contato()), ); },
+                    child: const Text( 'Contato', style: TextStyle(color: Colors.white),),
                   ),
                 ],
               ),
@@ -138,6 +116,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+
+/*
 // Tela de Agendamento
 class Agendamento extends StatelessWidget {
   const Agendamento({super.key});
@@ -164,3 +144,24 @@ class Contato extends StatelessWidget {
     );
   }
 }
+
+
+
+//botão main
+                  TextButton(
+                    onPressed: () {
+                      // Navegar para a tela de Contato
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Contato()),
+                      );
+                    },
+                    child: const Text(
+                      'Contato',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+
+
+
+*/
