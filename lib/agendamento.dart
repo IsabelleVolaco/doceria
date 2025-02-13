@@ -17,12 +17,47 @@ class _AgendamentoState extends State<Agendamento> {
   // Lista de sabores de bolo
   final List<String> sabores = ['Chocolate', 'Morango', 'Baunilha', 'Coco'];
 
+  // Validação de telefone: aceita apenas números
+  String? _validarTelefone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, insira seu telefone';
+    }
+    final RegExp regex = RegExp(r'^\d{10,11}$'); // 10 ou 11 dígitos
+    if (!regex.hasMatch(value)) {
+      return 'Telefone inválido. Digite apenas números (10 ou 11 dígitos)';
+    }
+    return null;
+  }
+
+  // Validação de email
+  String? _validarEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, insira seu email';
+    }
+    final RegExp regex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+    if (!regex.hasMatch(value)) {
+      return 'Email inválido. Formato esperado: exemplo@dominio.com';
+    }
+    return null;
+  }
+
+  // Validação de data de entrega: não pode ser uma data no passado
+  String? _validarDataEntrega(String? value) {
+    if (dataEntrega == null) {
+      return 'Por favor, selecione a data';
+    }
+    if (dataEntrega!.isBefore(DateTime.now())) {
+      return 'A data de entrega não pode ser no passado';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Agendamento'),
-        backgroundColor: const Color(0xFF91FFDE),
+        backgroundColor:  const Color(0xFF91FFDE),
       ),
       backgroundColor: const Color(0xFFFFE2EE),
       body: Center(
@@ -71,12 +106,7 @@ class _AgendamentoState extends State<Agendamento> {
                       ),
                     ),
                     onSaved: (value) => email = value,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, insira seu email';
-                      }
-                      return null;
-                    },
+                    validator: _validarEmail, // Usando a função de validação de email
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -87,12 +117,7 @@ class _AgendamentoState extends State<Agendamento> {
                       ),
                     ),
                     onSaved: (value) => telefone = value,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, insira seu telefone';
-                      }
-                      return null;
-                    },
+                    validator: _validarTelefone, // Usando a função de validação de telefone
                   ),
                   const SizedBox(height: 10),
                   DropdownButtonFormField<String>(
@@ -132,7 +157,7 @@ class _AgendamentoState extends State<Agendamento> {
                       DateTime? selectedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
+                        firstDate: DateTime.now(), // Não permite datas passadas
                         lastDate: DateTime(2101),
                       );
                       if (selectedDate != null && selectedDate != dataEntrega) {
@@ -147,12 +172,7 @@ class _AgendamentoState extends State<Agendamento> {
                           ? '${dataEntrega?.day}/${dataEntrega?.month}/${dataEntrega?.year}'
                           : '',
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, selecione a data';
-                      }
-                      return null;
-                    },
+                    validator: _validarDataEntrega, // Usando a função de validação de data
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
