@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'doces.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,58 +12,86 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: const Color(0xFFFFE2EE), // Fundo rosa claro
-        appBar: AppBar( // APPBAR --------------------------------------------------------------------
-          title: const Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text(
-              'A Doceria Confeiteira',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFE2EE), // Fundo rosa claro
+      appBar: AppBar( // APPBAR
+        title: const Padding(
+          padding: EdgeInsets.all(5.0),
+          child: Text(
+            'A Doceria Confeiteira',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          centerTitle: true,
-          backgroundColor: const Color(0xFF91FFDE), 
-          toolbarHeight: 80.0, 
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(50.0),
-            child: Container( // NAVBAR --------------------------------------------------------------------
-              color: const Color(0xFF73CEB4), 
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row( // Botões 
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Agendamento',
-                        style: TextStyle(color: Colors.white),
-                      ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF91FFDE), 
+        toolbarHeight: 80.0, 
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50.0),
+          child: Container( // NAVBAR
+            color: const Color(0xFF73CEB4), 
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row( // Botões
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+
+                  TextButton(
+                    onPressed: () {
+                      // Navegar para a tela de Agendamento
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Agendamento()),
+                      );
+                    },
+                    child: const Text(
+                      'Agendamento',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Doces',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  ),
+
+                  TextButton(
+                    onPressed: () {
+                      // Navegar para a tela de Doces
+                      Navigator.push( context, MaterialPageRoute(builder: (context) => const Doces()), );
+                    },
+                    child: const Text(
+                      'Doces',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Contato',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  ),
+
+                  TextButton(
+                    onPressed: () {
+                      // Navegar para a tela de Contato
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Contato()),
+                      );
+                    },
+                    child: const Text(
+                      'Contato',
+                      style: TextStyle(color: Colors.white),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
-        body: Center(
-          child: Container(
-            // Container branco --------------------------------------------------------------------
+      ),
+      body: Center(
+        child: Container(
+           // Container branco --------------------------------------------------------------------
             width: 500,
             height: 450,
             alignment:
@@ -104,8 +133,34 @@ class MainApp extends StatelessWidget {
               ],
             ),
           ),
-        ),
       ),
+    );
+  }
+}
+
+// Tela de Agendamento
+class Agendamento extends StatelessWidget {
+  const Agendamento({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Agendamento")),
+      body: const Center(child: Text('Tela de Agendamento')),
+    );
+  }
+}
+
+
+// Tela de Contato
+class Contato extends StatelessWidget {
+  const Contato({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Contato")),
+      body: const Center(child: Text('Tela de Contato')),
     );
   }
 }
