@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'agendamento.dart';
-import 'doces.dart';
-import 'contato.dart';
+import 'screens/agendamento.dart';
+import 'screens/doces.dart';
+import 'screens/contato.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,7 +14,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Sistema de Confeitaria',
+      //theme: ThemeData(primarySwatch: Colors.blue,
       home: const HomeScreen(),
+      //home: LoginScreen(),
     );
   }
 }
