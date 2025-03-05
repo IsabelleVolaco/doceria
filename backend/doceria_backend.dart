@@ -1,5 +1,6 @@
 
 import 'package:mysql1/mysql1.dart';
+import 'dart:async';
 void main() {
   var settings = ConnectionSettings(
     host: 'localhost',
