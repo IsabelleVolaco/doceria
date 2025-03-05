@@ -1,96 +1,155 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginScreen extends StatefulWidget{
-  const LoginScreen({super.key})
+/// Tela de login com opções de login, registro e reset de senha
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key}); // Usa 'super.key' para passar o key à classe base
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
-  //Controladores para campos texto
-
+class _LoginScreenState extends State<LoginScreen> {
+  // Controladores para os campos de texto
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-    
-    void _login{
-      print('Fiz o login...');
+
+  /// Realiza o login enviando uma requisição ao backend
+  Future<void> _login() async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/login'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      }),
+    );
+    final data = jsonDecode(response.body);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(data['message'] as String)),
+      );
+      if (data['success'] as bool) {
+        // TODO: Adicionar navegação para a próxima tela após login
+      }
     }
+  }
 
-    void _register{
-
+  /// Registra um novo usuário enviando uma requisição ao backend
+  Future<void> _register() async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/register'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      }),
+    );
+    final data = jsonDecode(response.body);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(data['message'] as String)),
+      );
     }
+  }
 
-    void _resetPassword{
-
+  /// Solicita o reset de senha enviando uma requisição ao backend
+  Future<void> _resetPassword() async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/reset'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': _emailController.text,
+      }),
+    );
+    final data = jsonDecode(response.body);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(data['message'] as String)),
+      );
     }
+  }
 
-   @override 
-   Widget build(BuildContext context) {
-     return Scaffold(
+  Future<void> _testConnection() async {
+    print('📩 Testando conexão com o servidor...');
+
+    try {
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:2620/login'), // Altere para o IP correto se necessário
+      );
+
+      print('📩 Status code: ${response.statusCode}');
+      print('📩 Resposta: ${response.body}');
+    } catch (e) {
+      print('❌ Erro ao conectar ao backend: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       appBar: AppBar(
-        title: const Text('LOGIN DO BOLO'),backgroundColor: Colors.blue,
+        title: const Text('PetShop Control - Login'), // Título da tela
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // ou start, spacebetween....
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            //Campo email
+            // Campo de email
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
-                border: OutlineInputBorder()
+                border: OutlineInputBorder(),
               ),
-              keyboardType: TextInputType.emailAddress, //adiciona tipos de verificação - ''qual a informação/tipo que vem do teclado?''
+              keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16),
-
-            //Campo senha
+            // Campo de senha
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(
                 labelText: 'Senha',
-                border: OutlineInputBorder()
+                border: OutlineInputBorder(),
               ),
-              obscureText: true, //esconde senha
+              obscureText: true, // Oculta a senha
             ),
-            const SizedBox(height: 25),
-            //botão login
+            const SizedBox(height: 24),
+            // Botão de login
             ElevatedButton(
-              onPressed: _login, 
+              onPressed: _login,
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50)
+                minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Entrar!!') // quando entrar, chama o metodo login > com future, metodo assincrono, pois é um metodo sincrono que chama a API de forma assíncrona
+              child: const Text('Entrar'),
             ),
-            const SizedBox(height: 10),
-
-              //botão registro
+            const SizedBox(height: 8),
+            // Botão de registro
             ElevatedButton(
-              onPressed: _login, 
+              onPressed: _register,
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50)
+                minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Registre-se!!')
+              child: const Text('Registrar'),
             ),
-            const SizedBox(height: 10),
-
-               //botão esqueci a senha
+            const SizedBox(height: 8),
+            // Botão de reset de senha
+            TextButton(
+              onPressed: _resetPassword,
+              child: const Text('Esqueci minha senha'),
+            ),
             ElevatedButton(
-              onPressed: _resetPassword, 
-              child: 
-             
+              onPressed: _testConnection,
+              child: const Text('Testar Conexão'),
             ),
-            const SizedBox(height: 10),
-    
+
           ],
+        ),
+      ),
+    );
 
-        ),
-        ),
-     );
-   } 
-}
+
+//pastas frontend/lib/main.dart<>screens/login.dart
+//backend/bin/server(param.banco/apis e retornos/controle de conexão)
