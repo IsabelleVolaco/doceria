@@ -1,7 +1,7 @@
 
 import 'package:mysql1/mysql1.dart';
 import 'dart:async';
-void main() {
+void main() async{
   var settings = ConnectionSettings(
     host: 'localhost',
     port: 3306,
@@ -9,6 +9,7 @@ void main() {
     password: 'root',
     db: 'doceria1'
   );
+
 
   
   try{
